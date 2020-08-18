@@ -23,7 +23,7 @@ jobs:
         id: extract_branch      
 
       - name: Build application
-        run: npm install && npm run build
+        run: yarn && yarn workspace docs build
       
       - name: Deploy build to S3 bucket
         run: aws s3 sync ./dist/ s3://<bucket-name>/${{ steps.extract_branch.outputs.branch }} --delete
