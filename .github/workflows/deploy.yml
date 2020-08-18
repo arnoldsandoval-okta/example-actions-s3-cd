@@ -10,8 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -20,5 +19,12 @@ jobs:
       - name: Build application
         run: yarn && yarn workspace docs build
       
-      - name: Deploy build to S3 bucket
+      - name: Deploy build to odyssey-preview
         run: aws s3 sync ./packages/docs/docs/.vuepress/dist/ s3://odyssey-preview/$GITHUB_SHA --delete
+
+      - uses: rytswd/respost@v0.1.0
+        with:
+          title: Deployment Complete!
+          body: "✅ Deployment successful! https://odyssey-preview.s3-us-west-1.amazonaws.com/${{GITHUB_SHA}}/index.html"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
