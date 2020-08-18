@@ -26,4 +26,4 @@ jobs:
         run: yarn && yarn workspace docs build
       
       - name: Deploy build to S3 bucket
-        run: aws s3 sync ./dist/ s3://<bucket-name>/${{ steps.extract_branch.outputs.branch }} --delete
+        run: aws s3 sync ./dist/ s3://odyssey-preview/${{ steps.extract_branch.outputs.branch }} --delete
