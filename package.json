@@ -1,0 +1,20 @@
+{
+  "name": "poc-actions-s3",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "yarn": "^1.15.2",
+    "node": ">=12.13"
+  },
+  "scripts": {
+    "docs": "yarn workspace docs dev",
+    "docs:build": "yarn workspace docs build"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/arnoldsandoval-okta/poc-actions-s3.git",
+  "author": "Arnold Sandoval <arnold.sandoval@okta.com>",
+  "license": "MIT"
+}
