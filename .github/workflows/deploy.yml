@@ -25,6 +25,6 @@ jobs:
       - uses: rytswd/respost@v0.1.0
         with:
           title: Deployment Complete!
-          body: "✅ Deployment successful! https://odyssey-preview.s3-us-west-1.amazonaws.com/${{GITHUB_SHA}}/index.html"
+          body: "✅ Deployment successful! https://odyssey-preview.s3-us-west-1.amazonaws.com/${GITHUB_SHA}/index.html"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
