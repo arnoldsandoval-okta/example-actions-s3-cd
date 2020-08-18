@@ -21,10 +21,18 @@ jobs:
       
       - name: Deploy build to odyssey-preview
         run: aws s3 sync ./packages/docs/docs/.vuepress/dist/ s3://odyssey-preview/$GITHUB_SHA --delete
+      
+      - name: Deployment Complete
+        env:
+          URL: ${{ github.event.pull_request.comments_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl \
+            -X POST \
+            $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data '{ "body": "✅ Deployment successful! https://odyssey-preview.s3-us-west-1.amazonaws.com/$GITHUB_SHA/index.html" }'
 
-      - uses: rytswd/respost@v0.1.0
-        with:
-          title: Deployment Complete!
-          body: "✅ Deployment successful! https://odyssey-preview.s3-us-west-1.amazonaws.com/${{GITHUB_SHA}}/index.html"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
