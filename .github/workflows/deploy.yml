@@ -17,13 +17,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch      
-
       - name: Build application
         run: yarn && yarn workspace docs build
       
       - name: Deploy build to S3 bucket
-        run: aws s3 sync ./packages/docs/docs/.vuepress/dist/ s3://odyssey-preview/${{ steps.extract_branch.outputs.branch }} --delete
+        run: aws s3 sync ./packages/docs/docs/.vuepress/dist/ s3://odyssey-preview/${{ GITHUB_SHA }} --delete
