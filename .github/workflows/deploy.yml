@@ -21,4 +21,4 @@ jobs:
         run: yarn && yarn workspace docs build
       
       - name: Deploy build to S3 bucket
-        run: aws s3 sync ./packages/docs/docs/.vuepress/dist/ s3://odyssey-preview/${{ GITHUB_SHA }} --delete
+        run: aws s3 sync ./packages/docs/docs/.vuepress/dist/ s3://odyssey-preview/$GITHUB_SHA --delete
