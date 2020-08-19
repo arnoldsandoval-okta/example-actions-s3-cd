@@ -18,18 +18,26 @@ jobs:
 
       - name: Build application
         run: yarn && yarn workspace docs build
-      
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(steps) }}
+        run: echo $GITHUB_CONTEXT
+
       - name: Deploying to odyssey-preview
-        run: aws s3 sync ./packages/docs/docs/.vuepress/dist/ s3://odyssey-preview/$GITHUB_SHA --delete
+        run: | 
+          SHA=$(git rev-parse --short ${{ github.event.pull_request.head.sha || github.sha }})
+          aws s3 sync ./packages/docs/docs/.vuepress/dist/ s3://odyssey-preview/$SHA --delete
       
       - name: Deployment Complete
         run: |
+          SHA=$(git rev-parse --short ${{ github.event.pull_request.head.sha || github.sha }})
           curl \
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "✅ Deployment successful! https://odyssey-preview.s3-us-west-1.amazonaws.com/'"$GITHUB_SHA"'/index.html" }'
+            --data '{ "body": "✅ Deployment successful! https://odyssey-preview.s3-us-west-1.amazonaws.com/'"$SHA"'/index.html" }'
         env:
           URL: ${{ github.event.pull_request.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
