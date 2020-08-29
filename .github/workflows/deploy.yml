@@ -32,7 +32,7 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "✅ Deployment successful! http://ods.so.s3-website-us-west-1.amazonaws.com/'"$SHA"'/index.html" }'
+            --data '{ "body": "✅  Deployment successful! https://'"$SHA"'/.ods.so" }'
         env:
           URL: ${{ github.event.pull_request.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
