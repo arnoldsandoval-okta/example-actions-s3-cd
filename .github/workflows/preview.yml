@@ -51,7 +51,7 @@ jobs:
 
       - name: 'deploy: 🚀 start'
         run: |
-          ./node_modules/.bin/lerna exec --since ${{github.base_ref}} --no-bail -- aws s3 sync ./packages/\$LERNA_PACKAGE_NAME/dist s3://ods.dev/\$LERNA_PACKAGE_NAME-$SHA7- --delete
+          ./node_modules/.bin/lerna exec --since origin/${{github.base_ref}} --no-bail -- aws s3 sync ./packages/\$LERNA_PACKAGE_NAME/dist s3://ods.dev/\$LERNA_PACKAGE_NAME-$SHA7- --delete
 
       - name: 'deploy: update status'
         uses: bobheadxi/deployments@v0.4.2
