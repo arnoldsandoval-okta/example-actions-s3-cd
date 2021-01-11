@@ -16,5 +16,8 @@
   "main": "index.js",
   "repository": "https://github.com/arnoldsandoval-okta/poc-actions-s3.git",
   "author": "Arnold Sandoval <arnold.sandoval@okta.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
 }
