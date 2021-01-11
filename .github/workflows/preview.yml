@@ -32,10 +32,10 @@ jobs:
         run: yarn
 
       - name: test
-        run: ./node_modules/lerna/cli.js run test --since develop
+        run: ./node_modules/.bin/lerna run test --since develop
 
       - name: build changed packages since develop
-        run: ./node_modules/lerna/cli.js run build --since develop
+        run: ./node_modules/.bin/lerna run build --since develop
 
       - name: 'deploy: create'
         uses: bobheadxi/deployments@v0.4.2
@@ -48,7 +48,7 @@ jobs:
 
       - name: 'deploy: 🚀 start'
         run: |
-          ./node_modules/lerna/cli.js exec --no-bail -- aws s3 sync ./packages/$LERNA_PACKAGE_NAME/dist/ s3://ods.dev/$SHA7 --delete
+          ./node_modules/.bin/lerna exec --no-bail -- aws s3 sync ./packages/$LERNA_PACKAGE_NAME/dist/ s3://ods.dev/$SHA7 --delete
 
       - name: 'deploy: update status'
         uses: bobheadxi/deployments@v0.4.2
