@@ -16,7 +16,7 @@ jobs:
           fetch-depth: "0"
           ref: ${{ github.event.pull_request.head.sha }}
           # pulls all tags (needed for lerna / semantic release to correctly version)
-          run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+          # run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
       - name: configure aws
         uses: aws-actions/configure-aws-credentials@v1
