@@ -33,11 +33,11 @@ jobs:
       - name: install dependencies
         run: yarn
 
-      - name: test
-        run: ./node_modules/.bin/lerna run test --since refs/remotes/origin/${{github.base_ref}}
+      - name: test changed packages since ${{github.base_ref}}
+        run: ./node_modules/.bin/lerna run test --since origin/${{github.base_ref}}
 
       - name: build changed packages since ${{github.base_ref}}
-        run: ./node_modules/.bin/lerna run build --since refs/remotes/origin/${{github.base_ref}}
+        run: ./node_modules/.bin/lerna run build --since origin/${{github.base_ref}}
 
       - name: 'deploy: create'
         uses: bobheadxi/deployments@v0.4.2
