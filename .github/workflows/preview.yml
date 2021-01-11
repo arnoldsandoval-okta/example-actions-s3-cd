@@ -60,10 +60,10 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ env.PREVIEW_URL }}
 
-      - name: 'notify: slack'
-        run: sh ./scripts/notify-slack.sh
-        env:
-          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          AUTHOR_NAME: ${{github.actor}}
-          BRANCH_NAME: ${{github.head_ref}}
-          PULL_REQUEST_ID: ${{github.event.pull_request.number}}
+      # - name: 'notify: slack'
+      #   run: sh ./scripts/notify-slack.sh
+      #   env:
+      #     INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     AUTHOR_NAME: ${{github.actor}}
+      #     BRANCH_NAME: ${{github.head_ref}}
+      #     PULL_REQUEST_ID: ${{github.event.pull_request.number}}
