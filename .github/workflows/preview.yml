@@ -11,9 +11,13 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+    with:
+      # pulls all commits (needed for lerna / semantic release to correctly version)
+      fetch-depth: "0"
+      ref: ${{ github.event.pull_request.head.sha }}
+      # pulls all tags (needed for lerna / semantic release to correctly version)
+      run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
 
       - name: configure aws
         uses: aws-actions/configure-aws-credentials@v1
