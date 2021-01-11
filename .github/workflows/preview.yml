@@ -26,7 +26,7 @@ jobs:
         run: echo "SHA7=$(git rev-parse --short ${{ github.event.pull_request.head.sha || github.sha }})" >> $GITHUB_ENV
 
       - name: set $PREVIEW_URL
-        run: echo "PREVIEW_URL="https://${SHA7}.ods.dev"" >> $GITHUB_ENV
+        run: echo "PREVIEW_URL="https://${SHA7}.ods.so"" >> $GITHUB_ENV
 
       - name: get COMMIT_MSG
         run: echo "COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.event.after }})" >> $GITHUB_ENV
@@ -51,7 +51,7 @@ jobs:
 
       - name: 'deploy: 🚀 start'
         run: |
-          ./node_modules/.bin/lerna exec --since origin/${{github.base_ref}} --no-bail -- aws s3 sync ./packages/\$LERNA_PACKAGE_NAME/dist s3://ods.dev/\$LERNA_PACKAGE_NAME-$SHA7- --delete
+          ./node_modules/.bin/lerna exec --since origin/${{github.base_ref}} --no-bail -- aws s3 sync ./packages/\$LERNA_PACKAGE_NAME/dist s3://ods.so/\$LERNA_PACKAGE_NAME-$SHA7- --delete
 
       - name: 'deploy: update status'
         uses: bobheadxi/deployments@v0.4.2
