@@ -15,8 +15,6 @@ jobs:
           # pulls all commits (needed for lerna / semantic release to correctly version)
           fetch-depth: "0"
           ref: ${{ github.event.pull_request.head.sha }}
-          # pulls all tags (needed for lerna / semantic release to correctly version)
-          # run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
       - name: configure aws
         uses: aws-actions/configure-aws-credentials@v1
@@ -31,7 +29,7 @@ jobs:
       - name: set $PREVIEW_URL
         run: echo "PREVIEW_URL="https://${SHA7}.ods.so"" >> $GITHUB_ENV
 
-      - name: get COMMIT_MSG
+      - name: get $COMMIT_MSG
         run: echo "COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.event.after }})" >> $GITHUB_ENV
 
       - name: install dependencies
@@ -54,7 +52,7 @@ jobs:
 
       - name: 'deploy: 🚀 start'
         run: |
-          ./node_modules/.bin/lerna exec --since origin/${{github.base_ref}} --no-bail -- aws s3 sync ./packages/docs/dist s3://ods.so/$SHA7 --delete
+          ./node_modules/.bin/lerna exec --since origin/${{github.base_ref}} --no-bail -- aws s3 sync ./packages/docs s3://ods.so/$SHA7 --delete
 
       - name: 'deploy: update status'
         uses: bobheadxi/deployments@v0.4.2
