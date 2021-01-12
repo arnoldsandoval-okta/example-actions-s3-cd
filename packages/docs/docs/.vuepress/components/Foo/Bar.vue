@@ -8,7 +8,7 @@
   export default {
     data () {
       return {
-        msg: 'Hello this is <Foo-Bar>'
+        msg: 'Hello this is <Foo-Bar>, another change'
       }
     }
   }
