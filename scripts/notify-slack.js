@@ -89,7 +89,7 @@ const sendMessage = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
 (async function () {
    exec('./node_modules/.bin/lerna list --since master --json', async (e, stdout) => {
     try {
-      await sendMessage(SLACK_WEBHOOK_URL, stdout)
+      await sendMessage(SLACK_WEBHOOK_URL, stdout).then((res) => {console.log(res)} )
     } catch (e) {
       console.error(e)
     }
