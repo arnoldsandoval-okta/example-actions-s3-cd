@@ -65,7 +65,7 @@ jobs:
           env_url: ${{ env.PREVIEW_URL }}
 
       - name: 'notify: slack'
-        run: node ./scripts/notify-slack.sh
+        run: node ./scripts/notify-slack
         env:
           INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SHA7: ${SHA7}
