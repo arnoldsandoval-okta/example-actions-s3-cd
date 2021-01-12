@@ -2,9 +2,9 @@
 
 LERNA_LIST=$(npx lerna list)
 PREVIEW_URLS=""
-for value in $LERNA_LIST; do
-  PREVIEW_URLS+="$value"
-done
+# for value in $LERNA_LIST; do
+#   PREVIEW_URLS+="$value"
+# done
 
 # printf "%s\n" "${PREVIEW_URLS}" | sed 's/-/ -/g'
 
