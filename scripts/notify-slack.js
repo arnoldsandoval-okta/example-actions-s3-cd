@@ -9,7 +9,7 @@ const {
   PULL_REQUEST_ID,
 } = process.env
 
-const slackPayload = (changedPackages) => ({
+const payload = (changedPackages) => ({
   'username': 'Odyssey Preview',
   'icon_emoji': ':boat:',
   "blocks": [
@@ -43,7 +43,7 @@ const slackPayload = (changedPackages) => ({
         "type": "mrkdwn",
         "text": [
           `<https://github.com/okta/odyssey/pull/${PULL_REQUEST_ID}|PR #${PULL_REQUEST_ID}>`,
-          ...changedPackages.map(({name}) => `<https://${SHA7}.${name}.ods.so|View ${name}>`)
+          ...changedPackages.map(({ name }) => `<https://${SHA7}.${name}.ods.so|View ${name}>`)
         ].join(" ∙ ")
       }
     },
@@ -53,18 +53,17 @@ const slackPayload = (changedPackages) => ({
   ]
 });
 
-const sendMessage = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
+const message = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
   new Promise((resolve, reject) => {
+    console.log(changedPackages)
     const packages = JSON.parse(changedPackages)
-    const message = slackPayload(packages)
-    const requestOptions = {
+    const message = payload(packages)
+    const req = https.request(webhookURL, {
       method: 'POST',
       header: {
         'Content-Type': 'application/json'
       }
-    }
-
-    const req = https.request(webhookURL, requestOptions, (res) => {
+    }, (res) => {
       let response = ''
 
 
@@ -89,7 +88,7 @@ const sendMessage = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
 (async function () {
    exec('./node_modules/.bin/lerna list --since master --json', async (e, stdout) => {
     try {
-      await sendMessage(SLACK_WEBHOOK_URL, stdout).then((res) => {console.log(res)} )
+      await message(SLACK_WEBHOOK_URL, stdout)
     } catch (e) {
       console.error(e)
     }
