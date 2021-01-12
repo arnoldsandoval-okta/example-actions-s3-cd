@@ -29,17 +29,17 @@ jobs:
       - name: set $PREVIEW_URL
         run: echo "PREVIEW_URL="https://${SHA7}.ods.so"" >> $GITHUB_ENV
 
-      - name: get $COMMIT_MSG
-        run: echo "COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.event.after }})" >> $GITHUB_ENV
+      - name: get $COMMIT_MESSAGE
+        run: echo "COMMIT_MESSAGE=$(git log --format=%B -n 1 ${{ github.event.after }})" >> $GITHUB_ENV
 
-      - name: install dependencies
-        run: yarn
+      # - name: install dependencies
+      #   run: yarn
 
-      - name: test changed packages since ${{github.base_ref}}
-        run: ./node_modules/.bin/lerna run test --since origin/${{github.base_ref}}
+      # - name: test changed packages since ${{github.base_ref}}
+      #   run: ./node_modules/.bin/lerna run test --since origin/${{github.base_ref}}
 
-      - name: build changed packages since ${{github.base_ref}}
-        run: ./node_modules/.bin/lerna run build --since origin/${{github.base_ref}}
+      # - name: build changed packages since ${{github.base_ref}}
+      #   run: ./node_modules/.bin/lerna run build --since origin/${{github.base_ref}}
 
       - name: 'deploy: create'
         uses: bobheadxi/deployments@v0.4.2
@@ -50,9 +50,9 @@ jobs:
           env: preview
           ref: ${{ github.head_ref }}
 
-      - name: 'deploy: 🚀 start'
-        run: |
-          ./node_modules/.bin/lerna exec --since origin/${{github.base_ref}} --no-bail -- aws s3 sync ./dist s3://ods.so/$SHA7-\$LERNA_PACKAGE_NAME --delete
+      # - name: 'deploy: 🚀 start'
+      #   run: |
+      #     ./node_modules/.bin/lerna exec --since origin/${{github.base_ref}} --no-bail -- aws s3 sync ./dist s3://ods.so/$SHA7-\$LERNA_PACKAGE_NAME --delete
 
       - name: 'deploy: update status'
         uses: bobheadxi/deployments@v0.4.2
@@ -63,11 +63,40 @@ jobs:
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ env.PREVIEW_URL }}
-
-      - name: 'notify: slack'
-        run: sh ./scripts/notify-slack.sh
+      - name: Slack Notification on SUCCESS
+        if: success()
+        uses: tokorom/action-slack-incoming-webhook@main
         env:
           INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          AUTHOR_NAME: ${{github.actor}}
-          BRANCH_NAME: ${{github.head_ref}}
-          PULL_REQUEST_ID: ${{github.event.pull_request.number}}
+        with:
+          text: Successfully automated deployment.
+          attachments: |
+            [
+              {
+                "color": "good",
+                "author_name": "${{ github.actor }}",
+                "author_icon": "${{ github.event.sender.avatar_url }}",
+                "fields": [
+                  {
+                    "title": "Commit Message",
+                    "value": "${{ env.COMMIT_MESSAGE }}"
+                  },
+                  {
+                    "title": "GitHub Actions URL",
+                    "value": "${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}"
+                  },
+                  {
+                    "title": "Compare URL",
+                    "value": "${{ github.event.compare }}"
+                  }
+                ]
+              }
+            ]
+
+      # - name: 'notify: slack'
+      #   run: sh ./scripts/notify-slack.sh
+      #   env:
+      #     INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     AUTHOR_NAME: ${{github.actor}}
+      #     BRANCH_NAME: ${{github.head_ref}}
+      #     PULL_REQUEST_ID: ${{github.event.pull_request.number}}
