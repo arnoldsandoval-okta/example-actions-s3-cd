@@ -55,7 +55,6 @@ const payload = (changedPackages) => ({
 
 const message = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
   new Promise((resolve, reject) => {
-    console.log(changedPackages)
     const packages = JSON.parse(changedPackages)
     const message = payload(packages)
     const req = https.request(webhookURL, {
@@ -88,6 +87,7 @@ const message = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
 (async function () {
    exec('./node_modules/.bin/lerna list --since master --json', async (e, stdout) => {
     try {
+      console.log(stdout)
       await message(SLACK_WEBHOOK_URL, stdout)
     } catch (e) {
       console.error(e)
