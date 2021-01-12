@@ -68,8 +68,8 @@ jobs:
         run: node ./scripts/notify-slack.sh
         env:
           INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SHA7: ${{SHA7}}
-          SHA7: ${{COMMIT_MSG}}
+          SHA7: ${SHA7}
+          SHA7: ${COMMIT_MSG}
           AUTHOR_NAME: ${{github.actor}}
           BRANCH_NAME: ${{github.head_ref}}
           PULL_REQUEST_ID: ${{github.event.pull_request.number}}
