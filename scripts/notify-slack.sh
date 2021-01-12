@@ -3,7 +3,7 @@
 LERNA_LIST=$(npx lerna list)
 PREVIEW_URLS=""
 for value in $LERNA_LIST; do
-  PREVIEW_URLS+="https://$SHA7-$value"
+  PREVIEW_URLS+="$SHA7$value"
 done
 
 echo "${PREVIEW_URLS}" 
