@@ -55,6 +55,7 @@ const slackPayload = (changedPackages) => ({
 
 const sendMessage = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
   new Promise((resolve, reject) => {
+    console.log(changedPackages)
     const packages = JSON.parse(changedPackages)
     const message = slackPayload(packages)
     const requestOptions = {
