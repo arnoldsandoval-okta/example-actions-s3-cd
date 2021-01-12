@@ -1,11 +1,14 @@
 #!/bin/bash
 
+# INCOMING_WEBHOOK_URL=https://hooks.slack.com/services/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 AUTHOR_NAME=AUTHOR_NAME SHA7=SHA7 BRANCH_NAME=BRANCH_NAME COMMIT_MSG=COMMIT_MSG PULL_REQUEST_ID=PULL_REQUEST_ID PREVIEW_URL=https://www.okta.com ./scripts/notify-slack.sh 
 
 variable_name=$(npx lerna list)
 
-print_something () {
-  echo https://$1.ods.so
-}
+PREVIEW_URLS=""
+
+for value in $variable_name; do
+  PREVIEW_URLS+=" ∙ <$value|View $value>"
+done
 
 curl \
   -X POST \
@@ -41,19 +44,7 @@ curl \
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": "> '
-          for value in $variable_name
-          do
-            print_something $value
-          done
-          '
-        }
-      },
-      {
-        "type": "section",
-        "text": {
-          "type": "mrkdwn",
-          "text": "<https://github.com/okta/odyssey/pull/'"$PULL_REQUEST_ID"'|PR #'"$PULL_REQUEST_ID"'> ∙ *<'"$PREVIEW_URL"'|View Preview>*"
+          "text": "<https://github.com/okta/odyssey/pull/'"$PULL_REQUEST_ID"'|PR #'"$PULL_REQUEST_ID"'>*'"$PREVIEW_URLS"'*"
         }
       },
       {
