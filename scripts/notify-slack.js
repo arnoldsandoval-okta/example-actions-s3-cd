@@ -1,5 +1,5 @@
-const https = require('https');
-const { exec } = require('child_process');
+const https = require('https')
+const { exec } = require('child_process')
 const { 
   SLACK_WEBHOOK_URL, 
   AUTHOR_NAME,
@@ -51,7 +51,7 @@ const slackPayload = (changedPackages) => ({
       "type": "divider"
     }
   ]
-});
+})
 
 const sendMessage = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
   new Promise((resolve, reject) => {
@@ -62,36 +62,36 @@ const sendMessage = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
       header: {
         'Content-Type': 'application/json'
       }
-    };
+    }
 
     const req = https.request(webhookURL, requestOptions, (res) => {
-      let response = '';
+      let response = ''
 
 
       res.on('data', (d) => {
-        response += d;
-      });
+        response += d
+      })
 
       res.on('end', () => {
-        resolve(response);
+        resolve(response)
       })
-    });
+    })
 
     req.on('error', (e) => {
-      reject(e);
-    });
+      reject(e)
+    })
 
-    req.write(JSON.stringify(message));
-    req.end();
-  });
+    req.write(JSON.stringify(message))
+    req.end()
+  })
 
 
 (async function () {
    exec('./node_modules/.bin/lerna list --since master --json', async (e, stdout) => {
     try {
-      await sendMessage(SLACK_WEBHOOK_URL, stdout);
+      await sendMessage(SLACK_WEBHOOK_URL, stdout)
     } catch (e) {
-      console.error(e);
+      console.error(e)
     }
-  });
-})();
+  })
+})()
