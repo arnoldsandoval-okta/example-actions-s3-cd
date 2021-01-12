@@ -14,6 +14,6 @@
   "dependencies": {},
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "build": "build-storybook -output-dir ./dist"
+    "build": "build-storybook -o ./dist"
   }
 }
