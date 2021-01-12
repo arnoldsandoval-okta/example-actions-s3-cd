@@ -1,7 +1,7 @@
 const https = require('https')
 const { exec } = require('child_process')
 const { 
-  SLACK_WEBHOOK_URL, 
+  INCOMING_WEBHOOK_URL, 
   AUTHOR_NAME,
   SHA7,
   BRANCH_NAME,
@@ -53,7 +53,7 @@ const slackPayload = (changedPackages) => ({
   ]
 })
 
-const sendMessage = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
+const sendMessage = (webhookURL = INCOMING_WEBHOOK_URL, changedPackages) =>
   new Promise((resolve, reject) => {
     console.log(changedPackages)
     const packages = JSON.parse(changedPackages)
@@ -90,7 +90,7 @@ const sendMessage = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
 (async function () {
    exec('./node_modules/.bin/lerna list --since master --json', async (e, stdout) => {
     try {
-      await sendMessage(SLACK_WEBHOOK_URL, stdout)
+      await sendMessage(INCOMING_WEBHOOK_URL, stdout)
     } catch (e) {
       console.error(e)
     }
