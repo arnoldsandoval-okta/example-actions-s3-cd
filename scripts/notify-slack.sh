@@ -2,12 +2,12 @@
 
 # INCOMING_WEBHOOK_URL=https://hooks.slack.com/services/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 AUTHOR_NAME=AUTHOR_NAME SHA7=SHA7 BRANCH_NAME=BRANCH_NAME COMMIT_MSG=COMMIT_MSG PULL_REQUEST_ID=PULL_REQUEST_ID PREVIEW_URL=https://www.okta.com ./scripts/notify-slack.sh
 
-variable_name=$(npx lerna list)
+LERNA_LIST=$(npx lerna list)
 
 PREVIEW_URLS=""
 
-for value in $variable_name; do
-  PREVIEW_URLS+=" ∙ <https://$SHA7-$value|View $value>"
+for value in $LERNA_LIST; do
+  PREVIEW_URLS+=" <https://$SHA7-$value|View $value> /"
 done
 
 curl \
