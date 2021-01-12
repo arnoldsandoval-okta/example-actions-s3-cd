@@ -1,5 +1,5 @@
-const https = require('https')
-const { exec } = require('child_process')
+const https = require('https');
+const { exec } = require('child_process');
 const { 
   SLACK_WEBHOOK_URL, 
   AUTHOR_NAME,
@@ -51,11 +51,10 @@ const slackPayload = (changedPackages) => ({
       "type": "divider"
     }
   ]
-})
+});
 
 const sendMessage = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
   new Promise((resolve, reject) => {
-    console.log(changedPackages)
     const packages = JSON.parse(changedPackages)
     const message = slackPayload(packages)
     const requestOptions = {
@@ -84,7 +83,7 @@ const sendMessage = (webhookURL = SLACK_WEBHOOK_URL, changedPackages) =>
 
     req.write(JSON.stringify(message))
     req.end()
-  })
+  });
 
 
 (async function () {
