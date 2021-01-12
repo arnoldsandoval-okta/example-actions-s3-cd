@@ -3,10 +3,10 @@
 LERNA_LIST=$(npx lerna list)
 PREVIEW_URLS=""
 for value in $LERNA_LIST; do
-  PREVIEW_URLS+="*<https://$SHA7-$value|View$value>*"
+  PREVIEW_URLS+="<https://$SHA7-$value|View$value>"
 done
 
-printf "${PREVIEW_URLS}" 
+echo "${PREVIEW_URLS}" 
 
 # curl \
 #   -X POST \
