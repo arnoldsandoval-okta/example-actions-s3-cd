@@ -7,7 +7,7 @@ variable_name=$(npx lerna list)
 PREVIEW_URLS=""
 
 for value in $variable_name; do
-  PREVIEW_URLS+=" ∙ <$value|View $value>"
+  PREVIEW_URLS+=" ∙ <https://$SHA7-$value.ods.so|View $value>"
 done
 
 curl \
